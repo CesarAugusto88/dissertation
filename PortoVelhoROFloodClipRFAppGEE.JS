@@ -2028,14 +2028,14 @@ var Landsat8_withNDWI = Landsat8
   .float(); // converter para float  
 
 // Select the bands needed for training
-var bands = ['B6', 'B5', 'B4', 'B7', 'B3', 'B2'];
+var bands = ['B6', 'B5', 'B4', 'B7', 'B3', 'B2', 'NDWI', 'NDWI1', 'NDWI2'];
 
 /////////////////////////////////// Amostrar os dados   /////////////////////
 /////////////////////////////////////////////////////////////////////////////
 var TrainData = ee.FeatureCollection([Solo, Agua, Vegetacao, Urbano])
 
 // Sample training data
-var TrainSample = Landsat8.sampleRegions({
+var TrainSample = Landsat8_withNDWI.sampleRegions({
   collection: TrainData,
   properties: ['Class'],
   scale: 30, // Adjust the scale based on your needs
@@ -2059,7 +2059,7 @@ var classifier_rand_Treinamento = ee.Classifier.smileRandomForest(10).train({
 
 // var classifier_rand_Treinamento = ee.Classifier.smileRandomForest(10).train(TrainSample, 'Class')
 
-var Resultado = Landsat8.classify(classifier_rand_Treinamento)
+var Resultado = Landsat8_withNDWI.classify(classifier_rand_Treinamento)
 
 Map.addLayer(Resultado, {min:0, max:3, palette:['orange', 'blue', 'green', 'grey']}, 'Random Forest')
 
@@ -2070,7 +2070,7 @@ Map.addLayer(Agua_Mapa, {}, 'Água após inundação')
 
 //// Imagem antes //////////////////////////////////////////////////
 // Sample training data
-var TrainSample_before = Landsat8_before.sampleRegions({
+var TrainSample_before = Landsat8_before_withNDWI.sampleRegions({
   collection: TrainData,
   properties: ['Class'],
   scale: 30, // Adjust the scale based on your needs
@@ -2085,7 +2085,7 @@ var classifier_rand_Treinamento_before = ee.Classifier.smileRandomForest(10).tra
   inputProperties: bands
 })
 
-var before_Resultado = Landsat8_before.classify(classifier_rand_Treinamento_before)
+var before_Resultado = Landsat8_before_withNDWI.classify(classifier_rand_Treinamento_before)
 
 Map.addLayer(before_Resultado, {min:0, max:3, palette:['orange', 'blue', 'green', 'grey']}, 'Random Forest before')
 
@@ -2146,7 +2146,7 @@ var classifier = ee.Classifier.smileRandomForest(10).train({
   inputProperties: bands
 })
 
-var classified = Landsat8.classify(classifier);
+var classified = Landsat8_withNDWI.classify(classifier);
 print(classified.getInfo())
 // Obtém informações sobre o classificador treinado
 print('Results of trained classifier', classifier.explain());
