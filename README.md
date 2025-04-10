@@ -69,4 +69,4 @@ Orientador: *[Thales Körting]*
 
 ## 📄 Licença
 
-Este projeto está licenciado sob os termos da Licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+Este projeto está licenciado sob os termos da Licença MIT. Veja o arquivo [LICENSE](https://github.com/CesarAugusto88/dissertation/blob/main/LICENSE) para mais detalhes.
